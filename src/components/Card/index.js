@@ -24,7 +24,6 @@ if(props.categoriaSelecionada == 'Saida'){
 
 const style = styleFunction(config.cor, config.corEscura)
 
- 
 
 
 async function excluir(){
@@ -36,7 +35,7 @@ await deletar(id)
   return (
 
 <View style={style.movimentacaoContainer}>
-<Text style={style.categoria}>{props.categoriaSelecionada}</Text>
+{props.fixo ? <Text style={style.categoria}>{props.categoriaSelecionada} Fixa</Text> : <Text style={style.categoria}>{props.categoriaSelecionada}</Text>}
 <Text style={style.texto}>{props.texto}</Text>
 
 

@@ -5,7 +5,7 @@ export function criaTabela () {
 db.transaction((tx) => {
 
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS transacao (id INTEGER PRIMARY KEY AUTOINCREMENT, valor REAL, categoria TEXT, texto TEXT, data TEXT);"
+    "CREATE TABLE IF NOT EXISTS transacao (id INTEGER PRIMARY KEY AUTOINCREMENT, valor REAL, categoria TEXT, texto TEXT, data TEXT, fixo BOOLEAN);"
   );
 
 })
@@ -14,7 +14,7 @@ db.transaction((tx) => {
 export const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-     tx.executeSql("INSERT INTO transacao (valor, categoria, texto, data) values (?,?,?,?)", [obj.valor, obj.categoria, obj.texto, obj.data]), () => {
+     tx.executeSql("INSERT INTO transacao (valor, categoria, texto, data, fixo) values (?,?,?,?,?)", [obj.valor, obj.categoria, obj.texto, obj.data, obj.fixo]), () => {
        resolve('Sucesso adicionando transacao!')
      }
     });
@@ -53,8 +53,8 @@ export const buscaData = (date) => {
       db.transaction((tx) => {
         //comando SQL modificável
         tx.executeSql(
-          "SELECT * FROM transacao WHERE data=?;",
-          [date],
+          "SELECT * FROM transacao WHERE data=? OR fixo=?;",
+          [date, true],
           //-----------------------
           (_, { rows }) => resolve(rows._array),
           (_, error) => reject(error) // erro interno em tx.executeSql

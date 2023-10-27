@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent:'flex-end',
-    borderRadius:20,
+    borderRadius:10,
     paddingTop:10,
    
   },
@@ -31,13 +31,14 @@ const styles = StyleSheet.create({
   },
 
   descricao: {
-fontSize:20,
+fontSize:18,
 textAlign:'center',
 marginVertical:15,
 borderWidth:1,
-borderRadius:10,
+borderRadius:5,
 width:250,
-borderColor:'black'
+borderColor:'black',
+backgroundColor:'white',
 
 
   },
@@ -47,9 +48,12 @@ borderColor:'black'
     textAlign:'center',
     marginBottom:15,
     borderWidth:1,
-    borderRadius:10,
+    borderRadius:5,
     width:100,
-    borderColor:'black'
+    borderColor:'black',
+    backgroundColor:'white',
+  
+
   },
 
   fundoCaixa: {
@@ -58,8 +62,21 @@ borderColor:'black'
   paddingTop:10,
   justifyContent:'center',
   marginHorizontal:'10%',
-  borderRadius:25,
-  backgroundColor:'darkgray'
+  borderRadius:10,
+  backgroundColor:'darkgray',
+
+},
+
+botaoSalvar: {
+  alignSelf:'center',
+  marginVertical:10,
+  paddingHorizontal:20,
+  paddingVertical:10,
+  backgroundColor:'#6CE262',
+  borderRadius:12,
+  color:'white',
+  fontWeight:'bold',
+  fontSize:18
 }
 });
 export default styles

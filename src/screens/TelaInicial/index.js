@@ -7,7 +7,6 @@ import { criaTabela } from '../../services/Transacao';
 import { buscaData } from '../../services/Transacao';
 import Inserir from '../Inserir';
 import { busca } from '../../services/Transacao';
-import { useFonts } from 'expo-font';
 
 export default function TelaInicial({ navigation }) {
   const [data, setData] = useState([])
@@ -116,7 +115,7 @@ return (
   style={{marginTop:0}}
       data={data}
       keyExtractor={item => item.id}
-      renderItem={({ item }) => <Card texto={item.texto} categoriaSelecionada={item.categoria} valor={item.valor} id={item.id} />}
+      renderItem={({ item }) => <Card texto={item.texto} categoriaSelecionada={item.categoria} valor={item.valor} id={item.id} fixo={item.fixo}/>}
 
     >
     
