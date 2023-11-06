@@ -8,8 +8,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { criaTabela } from '../../services/Transacao';
 import { busca } from '../../services/Transacao';
 import { deletar } from '../../services/Transacao';
+import React from 'react';
 
-export default function Card(props) {
+function Card(props) {
 
 
 var config = 0
@@ -96,3 +97,4 @@ const style = styleFunction(config.cor, config.corEscura)
      })
 
 
+     export default React.memo(Card)

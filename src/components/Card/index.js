@@ -8,14 +8,15 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { criaTabela } from '../../services/Transacao';
 import { busca } from '../../services/Transacao';
 import { deletar } from '../../services/Transacao';
+import React from 'react'
 
-export default function Card(props) {
-const [mes, setMes] = useState(new Date().getMonth() + 1)
-const {id} = props
+function Card({item, setTransacao}) {
+
+const {id} = item
 const [isLoading, setIsLoading] = useState(false)
 
 var config = 0
-if(props.categoriaSelecionada == 'Saida'){
+if(item.categoria == 'Saida'){
   config = {nome: 'Saida', cor:'#FF7E7E', corEscura: '#FF0000'}
 
 } else {
@@ -29,21 +30,31 @@ const style = styleFunction(config.cor, config.corEscura)
 async function excluir(){
 setIsLoading(true)
 await deletar(id)
-
 }
+
+async function editar(){
+setTransacao(item)
+}
+
+
+
 
   return (
 
-<View style={style.movimentacaoContainer}>
-{props.fixo ? <Text style={style.categoria}>{props.categoriaSelecionada} Fixa</Text> : <Text style={style.categoria}>{props.categoriaSelecionada}</Text>}
-<Text style={style.texto}>{props.texto}</Text>
+<View style={style.movimentacaoContainer} key={item.id}>
+{item.fixo ? <Text style={style.categoria}>{item.categoria} Fixa</Text> : <Text style={style.categoria}>{item.categoria}</Text>}
+<Text style={style.texto}>{item.texto}</Text>
 
 
 
-<Text style={style.valor}>{props.valor}</Text>
+<Text style={style.valor}>{item.valor}</Text>
 {
-isLoading ? <ActivityIndicator size={25} style={style.lixo} color={style.loading.color}/> : <Pressable onPress={excluir} style={style.lixo}><Entypo name='trash' size={25} color='red'/></Pressable>
+isLoading ? <ActivityIndicator size={25} style={style.botoes} color={style.loading.color}/> : 
+<View style={[style.botoes, {flexDirection:'row'}]}>
+<Pressable onPress={() => {editar()}}><Entypo name='pencil' size={25} color={'#3C673B'} /></Pressable>
+  <Pressable onPress={excluir} style={style.lixo}><Entypo name='trash' size={25} color='red'/></Pressable>
 
+</View>
  }
 
     
@@ -70,11 +81,12 @@ color:'white',
 marginLeft:17,
 },
 
-lixo: {
+botoes: {
   marginLeft:'auto', 
   position:'absolute',
-  left:'85%',
-bottom:'50%'
+  left:'78%',
+bottom:'50%',
+gap:10
 
 },
 
@@ -102,3 +114,5 @@ loading:{
 
 
 })
+
+export default React.memo(Card)

@@ -8,6 +8,7 @@ import { buscaData } from '../../services/Transacao';
 import Inserir from '../Inserir';
 import { busca } from '../../services/Transacao';
 
+
 export default function TelaInicial({ navigation }) {
   const [data, setData] = useState([])
   const [balanco, setBalanco] = useState()
@@ -17,18 +18,24 @@ saida: 0,
 total: 0,
   })
 
-const [periodo, setPeriodo] =  useState(0)
 
+
+const [periodo, setPeriodo] =  useState(0)
+const [transacao, setTransacao] = useState()
 
 
 
   useEffect(() => {
 setPeriodo(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
     criaTabela()
+
+
+
   
   async function mostra() {
   const data =  await buscaData(periodo)
-  setData(data)
+  setData( data)
+  
   }
   async function calcular(){
     const filtroSaida = data.filter((item) => item.categoria == 'Saida')
@@ -54,7 +61,6 @@ setPeriodo(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
     })
     
     }
-
   calcular()
 
   
@@ -63,6 +69,8 @@ setPeriodo(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
 
   
   }, [data])
+
+
 
 
 
@@ -110,13 +118,13 @@ return (
     </ScrollView>
   
   
-    <Inserir />
+    <Inserir transacaoSelecionada={transacao} setTransacao={setTransacao}/>
     <FlatList
   style={{marginTop:0}}
       data={data}
       keyExtractor={item => item.id}
-      renderItem={({ item }) => <Card texto={item.texto} categoriaSelecionada={item.categoria} valor={item.valor} id={item.id} fixo={item.fixo}/>}
-
+      renderItem={( item ) => <Card {...item} setTransacao={setTransacao}/>}
+maxToRenderPerBatch={15}
     >
     
     </FlatList>
