@@ -3,7 +3,7 @@ import { db } from "./SQLite";
 export function criaTabela() {
   db.transaction((tx) => {
     tx.executeSql(
-      "CREATE TABLE IF NOT EXISTS transacao (id INTEGER PRIMARY KEY AUTOINCREMENT, valor REAL, categoria TEXT, texto TEXT, data TEXT, fixo BOOLEAN);"
+      "CREATE TABLE IF NOT EXISTS transacao (id INTEGER PRIMARY KEY AUTOINCREMENT, valor REAL, categoria TEXT, texto TEXT, data TEXT, id_user INTEGER, FOREIGN KEY (id_user) REFERENCES user(id));"
     );
   });
 }
@@ -12,8 +12,8 @@ export const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO transacao (valor, categoria, texto, data, fixo) values (?,?,?,?,?)",
-        [obj.valor, obj.categoria, obj.texto, obj.data, obj.fixo]
+        "INSERT INTO transacao (valor, categoria, texto, data, id_user) values (?,?,?,?,?)",
+        [obj.valor, obj.categoria, obj.texto, obj.data, obj.id_user]
       ),
         () => {
           resolve("Sucesso adicionando transacao!");
@@ -22,13 +22,13 @@ export const create = (obj) => {
   });
 };
 
-export const busca = () => {
+export const busca = (id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM transacao;",
-        [],
+        "SELECT * FROM transacao WHERE id_user = ?;",
+        [id],
         //-----------------------
         (_, { rows }) => resolve(rows._array),
         (_, error) => reject(error) // erro interno em tx.executeSql
@@ -54,13 +54,13 @@ export const deletar = (id) => {
   });
 };
 
-export const buscaData = (date) => {
+export const buscaRender = (date, id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM transacao WHERE data=? OR fixo=?;",
-        [date, true],
+        "SELECT * FROM transacao WHERE data=? AND id_user = ?",
+        [date, id],
         //-----------------------
         (_, { rows }) => resolve(rows._array),
         (_, error) => reject(error) // erro interno em tx.executeSql
@@ -70,12 +70,15 @@ export const buscaData = (date) => {
 };
 
 
+
+
 export const atualizar = (obj, id) => {
   return new Promise((resolve) => {
     db.transaction((tx) => {
-      tx.executeSql("UPDATE transacao SET valor=?, categoria=?, texto=?, data=?, fixo=? WHERE id=?;", [obj.valor, obj.categoria, obj.texto, obj.data, obj.fixo, id], () => {
+      tx.executeSql("UPDATE transacao SET valor=?, categoria=?, texto=?, data=? WHERE id=?;", [obj.valor, obj.categoria, obj.texto, obj.data, id], () => {
         resolve("Transacao atualizada com sucesso!")
       })
     })
   })
 }
+

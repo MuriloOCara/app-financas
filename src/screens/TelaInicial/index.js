@@ -1,12 +1,14 @@
 
 import { Text, View, FlatList, SafeAreaView, ScrollView, Pressable, ActivityIndicator } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styles from './style'
 import Card from '../../components/Card/index'
-import { criaTabela } from '../../services/Transacao';
-import { buscaData } from '../../services/Transacao';
+import { buscaRender, create, criaTabela } from '../../services/Transacao';
 import Inserir from '../Inserir';
 import { busca } from '../../services/Transacao';
+import { UserContexto } from '../../contexts/user';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function TelaInicial({ navigation }) {
@@ -19,9 +21,10 @@ total: 0,
   })
 
 
-
+const {usuario} = useContext(UserContexto)
 const [periodo, setPeriodo] =  useState(0)
 const [transacao, setTransacao] = useState()
+
 
 
 
@@ -33,26 +36,33 @@ setPeriodo(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
 
   
   async function mostra() {
-  const data =  await buscaData(periodo)
+  const data =  await buscaRender(periodo, usuario.id)
   setData( data)
   
   }
   async function calcular(){
+
+
     const filtroSaida = data.filter((item) => item.categoria == 'Saida')
     const somaSaida = filtroSaida.map((item) => item.valor)
     const filtroEntrada = data.filter((item) => item.categoria == 'Entrada')
     const somaEntrada = filtroEntrada.map((item) => item.valor)
-    
-    const total = await busca()
+
+
+    const total = await busca(usuario.id)
     const filtroSaidaTotal = total.filter((item) => item.categoria == 'Saida')
     const somaSaidaTotal = filtroSaidaTotal.map((item) => item.valor)
     const filtroEntradaTotal = total.filter((item) => item.categoria == 'Entrada')
     const somaEntradaTotal = filtroEntradaTotal.map((item) => item.valor)
+    
+  
+  
+
+  
 
 
-    setBalanco(arrayCalcular(somaEntradaTotal) - arrayCalcular(somaSaidaTotal))
-    
-    
+setBalanco(arrayCalcular(somaEntradaTotal) - arrayCalcular(somaSaidaTotal))  
+
     setValores({
     entrada: arrayCalcular(somaEntrada),
     saida: arrayCalcular(somaSaida),
@@ -60,7 +70,11 @@ setPeriodo(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
     
     })
     
-    }
+
+
+  }
+
+
   calcular()
 
   
@@ -69,7 +83,6 @@ setPeriodo(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
 
   
   }, [data])
-
 
 
 
@@ -84,14 +97,24 @@ return soma
 
 
 
+
+
 return (
   <SafeAreaView style={{flex:1, backgroundColor:'#21222C'}}>
      
     <View style={styles.tituloContainer}>
-    <Text style={styles.titulo}>Olá, {valores.nome}! Aqui estão as suas movimentações do mês!</Text>
-  
+      <View style={{flexDirection:'column', alignSelf:'flex-start', marginLeft:20}}>
+        <TouchableOpacity onPress={() => {navigation.navigate('Conta')}}>
+      <Entypo name='arrow-left' size={50} color={'#FF0000'}/>
+   
+      <Text style={{textAlign:'center', color:'white', fontSize:18, fontWeight:'700'}}>Sair</Text>
+      </TouchableOpacity>
+      </View>
+
+    <Text style={styles.titulo}>Bem vindo, {usuario.nome}</Text>
+
     </View>
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{height:160, marginBottom:10, marginTop:120, position:'absolute'}}>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{maxHeight:180, height:180, minHeight:180}}>
     <View style={styles.movimentacoes}>
       <View style={styles.balancoContainer}>
         <Text style={styles.texto}>Balanço</Text>

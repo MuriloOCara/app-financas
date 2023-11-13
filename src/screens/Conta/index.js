@@ -1,42 +1,54 @@
 
 import { Text, StyleSheet, View, Button, Pressable } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useState, useEffect, useCallback } from 'react';
 import styles from './style'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TextInput } from 'react-native-paper'
-export default function Conta({ navigation }) {
+import { FlatList } from 'react-native';
+import Perfil from '../../components/Perfil';
+import CriarConta from '../CriarConta';
+import { busca } from '../../services/User';
+import { criaTabela } from '../../services/User';
+
+import { UserContexto } from '../../contexts/user';
+import { useContext } from 'react';
+import { excluirUser } from '../../services/User';
+
+export default function Conta() {
+const [data, setData] = useState([])
+const navigation = useNavigation()
+
+const {login} = useContext(UserContexto)
+
+function selecionarConta (obj){
+ 
+login(obj.item)
+console.log(obj.item)
+navigation.navigate('Home')
+}
 
 
-  const [balanco, setBalanco] = useState(null)
-  const [status, setStatus] = useState(null)
-  const [nome, setNome] = useState(null)
+
+async function excluir(id){
+await excluirUser(id)
+}
 
 
-  async function salvar() {
-    if (balanco != null && balanco != '' && balanco != undefined && nome != null && nome != '' && nome != undefined) {
-      await AsyncStorage.setItem('@helpfinancas:balanco', JSON.stringify(balanco))
-      await AsyncStorage.setItem('@helpfinancas:nome', JSON.stringify(nome))
+useEffect(() => {
 
-      navigation.navigate('Tela Inicial')
-    } else {
-      setStatus('Insira um nome e o seu balanço.')
-    }
+criaTabela()
+
+  async function buscarContas(){
+    const result = await busca()
+setData(result)
 
 
   }
+buscarContas()
 
-  async function verificar() {
-    const verificacao = await AsyncStorage.getItem('@helpfinancas:balanco')
-    if (verificacao != null) {
-      navigation.navigate('Tela Inicial')
-    }
-  }
+}, [data])
 
-  useEffect(() => {
-    verificar()
-  })
 
 
 
@@ -45,19 +57,19 @@ export default function Conta({ navigation }) {
 
 
 
-    <View>
+    <View style={{backgroundColor:'#21222C', flex:1}}>
+<Text style={styles.titulo}>Selecione um perfil.</Text>
 
-      <TextInput onChangeText={(valor) => { setNome(valor) }} placeholder='Insira o seu nome.' />
-      <TextInput keyboardType='numeric' onChangeText={(valor) => { setBalanco(valor) }} placeholder='Insira o seu dinheiro atual.' />
+<FlatList
+data={data}
+keyExtractor={(item) => item.id}
+renderItem={( item ) => <Perfil {...item} onDelete={() => excluir(item.item.id)}  onSelect={() => {selecionarConta(item)}}/>}
+maxToRenderPerBatch={15}
+/>
+
+<CriarConta />
 
 
-      <Button title='Continuar' onPress={() => {
-        salvar()
-
-
-      }} />
-
-      <Text>{status}</Text>
 
     </View>
 

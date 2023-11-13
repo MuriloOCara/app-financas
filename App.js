@@ -13,9 +13,68 @@ import { createStackNavigator} from '@react-navigation/stack';
 import Conta from './src/screens/Conta';
 import Historico from './src/screens/Historico/index'
 import Configuracoes from './src/screens/Configuracoes';
+import PerfilProvider from './src/contexts/user'
 
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
+
+export function HomeTabs(){
+return(
+  
+  <Tabs.Navigator >
+
+ 
+
+
+        
+
+  <Tabs.Screen 
+  name="Tela Inicial" 
+        component = { TelaInicial } 
+        options={{ 
+          tabBarIcon: ({ color }) => (
+            <Entypo name="home" color={ 'white' } size={ 25 } />
+          ), 
+          headerShown: false,  tabBarVisible: false, tabBarStyle: {backgroundColor:'#262626', borderTopWidth:0 },
+
+        }}
+        
+        
+        />
+
+  
+
+<Tabs.Screen 
+  name="Historico" 
+        component = { Historico } 
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Entypo name="cw" color={ 'white' } size={ 25 } />
+          ),
+         headerShown: false,tabBarStyle: {backgroundColor:'#262626', borderTopWidth:0 },
+        }}/> 
+
+            <Tabs.Screen 
+  name="Gráficos" 
+        component = { Graficos } 
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Entypo name="line-graph" color={ 'white' } size={ 25 } />
+          ),headerShown: false, tabBarStyle: {backgroundColor:'#262626', borderTopWidth:0 },
+        }}/>
+
+
+
+    
+  
+
+
+
+
+
+  </Tabs.Navigator>
+)
+}
 
 export default function App() {
 
@@ -23,74 +82,23 @@ export default function App() {
 
   return (
     <NavigationContainer>
+<PerfilProvider>
+<Stack.Navigator>
 
+        <Stack.Screen
+          name="Conta"
+          component={Conta}
+          options={{ headerShown: false }}
+        />
+       <Stack.Screen name="Home" component={HomeTabs}     options={{
+          tabBarIcon: ({ color }) => (
+            <Entypo name="line-graph" color={ 'white' } size={ 25 } />
+          ),headerShown: false, tabBarStyle: {backgroundColor:'#262626', borderTopWidth:0 },
+        }}/>
+     
+      </Stack.Navigator>
+      </PerfilProvider>
 
-
-    <Tabs.Navigator >
-
- 
-
-
-
-          
-
-    <Tabs.Screen 
-    name="Tela Inicial" 
-          component = { TelaInicial } 
-          options={{ 
-            tabBarIcon: ({ color }) => (
-              <Entypo name="home" color={ 'white' } size={ 25 } />
-            ), 
-            headerShown: false,  tabBarVisible: false, tabBarStyle: {backgroundColor:'#262626' },
-
-          }}
-          
-          
-          />
-
-             <Tabs.Screen 
-    name="Inserir" 
-          component = { Inserir } 
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Entypo name="plus" color={ 'white' } size={ 25 } />
-            ),headerShown: false,  tabBarButton: () => null
-          }}/>
-
-<Tabs.Screen 
-    name="Historico" 
-          component = { Historico } 
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Entypo name="cw" color={ 'white' } size={ 25 } />
-            ),
-           headerShown: false,tabBarStyle: {backgroundColor:'#262626' },
-          }}/> 
-
-              <Tabs.Screen 
-    name="Gráficos" 
-          component = { Graficos } 
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Entypo name="line-graph" color={ 'white' } size={ 25 } />
-            ),headerShown: false, tabBarStyle: {backgroundColor:'#262626' },
-          }}/>
-
-      
-    
-
-
-<Tabs.Screen 
-    name="Configurações" 
-          component = { Configuracoes } 
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Entypo name="cog" color={ 'white' } size={ 25 } />
-            ),headerShown: false, tabBarStyle: {backgroundColor:'#262626' },
-          }}/>
-
-
-    </Tabs.Navigator>
     
     
     </NavigationContainer>

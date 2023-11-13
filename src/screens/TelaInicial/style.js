@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   movimentacoes: {
  flexDirection:'row',
  justifyContent:'space-between',
- gap:15
+ gap:15,
   },
 texto: {
   textAlign:'center',
@@ -57,14 +57,17 @@ titulo: {
 paddingVertical:20,
 textAlign:'center',
 fontWeight:'bold',
-fontSize:18,
-color:'white'
+fontSize:20,
+color:'white',
+marginLeft:50
 },
 
 tituloContainer: {
-
-backgroundColor:'#262626',
-padding:10
+backgroundColor:'#21222C',
+height:100,
+flexDirection:'row',
+marginTop:50,
+alignItems:'center',
 
 }
 
