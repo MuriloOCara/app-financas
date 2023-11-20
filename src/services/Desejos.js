@@ -3,7 +3,7 @@ import { db } from "./SQLite";
 export function criaTabela() {
   db.transaction((tx) => {
     tx.executeSql(
-      "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, imagem TEXT);"
+      "CREATE TABLE IF NOT EXISTS desejo (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, valor REAL, importancia INT, concluido BOOLEAN, id_user INTEGER , FOREIGN KEY (id_user) REFERENCES user(id));"
     );
   });
 }
@@ -12,23 +12,23 @@ export const create = (obj) => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "INSERT INTO user (nome, imagem) values (?,?)",
-          [obj.nome, obj.imagem]
+          "INSERT INTO desejo (nome, valor, id_user, concluido, importancia) values (?,?, ?, ?, ?)",
+          [obj.nome, obj.valor, obj.id_user, false, obj.importancia]
         ),
           () => {
-            resolve("Sucesso adicionando user!");
+            resolve("Sucesso adicionando desejo!");
           };
       });
     });
   };
 
-  export const buscaContas = () => {
+  export const busca = (id) => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         //comando SQL modificável
         tx.executeSql(
-          "SELECT * FROM user",
-          [],
+          "SELECT * FROM desejo WHERE id_user = ?",
+          [id],
           //-----------------------
           (_, { rows }) => resolve(rows._array),
           (_, error) => reject(error) // erro interno em tx.executeSql
@@ -36,34 +36,15 @@ export const create = (obj) => {
       });
     });
   };
-  
 
-
-  export const excluirUser = (id) => {
+  export const excluirDesejo = (id) => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "DELETE FROM user WHERE id = ?;",
+          "DELETE FROM desejo WHERE id = ?;",
           [id],
           () => {
-            resolve("Sucesso removendo user!");
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
-    });
-  };
-
-  export const excluirTransacoes = (id) => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "DELETE FROM transacao WHERE id_user = ?;",
-          [id],
-          () => {
-            resolve("Sucesso removendo user!");
+            resolve("Sucesso removendo desejo!");
           },
           (error) => {
             reject(error);

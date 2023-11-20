@@ -5,8 +5,9 @@ import kratos from '../../../assets/kratos.jpg'
 import styles from './style';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-function Perfil({item, onSelect, onDelete}) {
+function Perfil({item, onSelect, onDelete }) {
 
+ 
 
   return (
 <TouchableOpacity onPress={onSelect}>
@@ -17,7 +18,6 @@ function Perfil({item, onSelect, onDelete}) {
 <Text style={styles.nome}>{item.nome}</Text>
 <Pressable style={{right:'5%', position:'absolute'}} onPress={onDelete}><Entypo name='trash' size={25} color='red'/></Pressable>
 </View>
-
 
     
 </View>

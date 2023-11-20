@@ -2,15 +2,15 @@
 import { Text, StyleSheet, View, Button, Pressable, ActivityIndicator } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native'
 import {useState, useEffect, useCallback} from 'react';
-import styles from './style'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { criaTabela } from '../../services/Transacao';
 import { busca } from '../../services/Transacao';
-import { deletar } from '../../services/Transacao';
+
 import React from 'react'
 import { Alert } from 'react-native';
+import styleFunction from './style';
 
-function Card({item, setTransacao, onDelete, onEdit}) {
+function Card({item, setTransacao, onDelete}) {
 
 const {id} = item
 const [isLoading, setIsLoading] = useState(false)
@@ -28,12 +28,12 @@ const style = styleFunction(config.cor, config.corEscura)
 
 
 
-async function excluir(){
+function excluir(){
 setIsLoading(true)
-await deletar(id)
+onDelete()
 }
 
-async function editar(){
+function editar(){
 setTransacao(item)
 }
 
@@ -48,7 +48,7 @@ setTransacao(item)
 
 
 
-<Text style={style.valor}>{item.valor}</Text>
+<Text style={style.valor}>R$ {item.valor}</Text>
 {
 isLoading ? <ActivityIndicator size={25} style={style.botoes} color={style.loading.color}/> : 
 <View style={[style.botoes, {flexDirection:'row'}]}>
@@ -81,56 +81,6 @@ style={style.lixo}><Entypo name='minus' size={25} color='red'/></Pressable>
 
 
 
-const styleFunction = (cor, corEscura) => StyleSheet.create({
 
-categoria: {
- color:'white',
- fontWeight:'700',
- fontSize:20,
- marginLeft:17,
- marginBottom:5
-},
-
-texto: {
-flexWrap:'wrap',
-width:150,
-fontSize:12,
-color:'white',
-marginLeft:17,
-},
-
-botoes: {
-  marginLeft:'auto', 
-  position:'absolute',
-  left:'78%',
-bottom:'50%',
-gap:10
-
-},
-
-movimentacaoContainer: {
-  backgroundColor:cor,
-  paddingVertical:10,
-  marginBottom:12,
-  marginHorizontal:20,
-  borderRadius:20
-
-},
-
-valor: {
-  color:corEscura,
-  fontWeight:'700',
-  position:'absolute',
-  bottom:'50%',
-  left:'50%',
-  fontSize:20
-},
-
-loading:{
-  color:corEscura
-}
-
-
-})
 
 export default React.memo(Card)

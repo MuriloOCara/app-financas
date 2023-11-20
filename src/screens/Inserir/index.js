@@ -91,16 +91,8 @@ export default function Inserir({ transacaoSelecionada, setTransacao }) {
         <View style={styles.container}>
           <View style={styles.fundoCaixa}>
             <View style={{ justifyContent: "center", top: "2%" }}>
-              <Text style={styles.titulo}>Nova Movimentação</Text>
+      
 
-              <Pressable
-                style={{ right: "5%", position: "absolute", borderRadius: 500 }}
-                onPress={() => {
-                  reset();
-                }}
-              >
-                <Entypo color={"red"} size={40} name="cross" />
-              </Pressable>
             </View>
 
             <View
@@ -121,8 +113,8 @@ export default function Inserir({ transacaoSelecionada, setTransacao }) {
               style={{
 
             
-                flexDirection:'row',
-                alignItems:'center',
+             
+         
                 justifyContent:'space-around'
               }}
             >
@@ -135,7 +127,7 @@ export default function Inserir({ transacaoSelecionada, setTransacao }) {
                 keyboardType="numeric"
               />
               
-              <View style={{alignItems:'center', marginLeft:15, marginVertical:10}}>
+              <View style={{alignItems:'center', marginLeft:15}}>
         
           
               </View>
@@ -214,7 +206,7 @@ export default function Inserir({ transacaoSelecionada, setTransacao }) {
      
           paddingVertical: 10,
           marginBottom: 12,
-          marginHorizontal: 20,
+     
           borderRadius: 20,
           backgroundColor: "gray",
           marginTop:'3%'

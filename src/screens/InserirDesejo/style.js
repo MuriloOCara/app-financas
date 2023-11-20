@@ -9,16 +9,11 @@ const styles = StyleSheet.create({
     fontSize:20,
     padding:25,
    textAlign:'center',
-   width:'90%',
-   borderRadius:15,
+   borderRadius:10,
+   paddingVertical:10,
+   marginVertical:10
   },
 
-  novoPerfilContainer: {
-
-alignItems:'center',
-justifyContent:'flex-end'
-
-  },
 
   titulo: {
  
@@ -58,7 +53,8 @@ justifyContent:'flex-end'
     fontSize:20,
     fontWeight:'700',
     textAlign:'center',
-    color:'white'
+    color:'white',
+    marginBottom:10,
 
   },
 
@@ -93,8 +89,8 @@ backgroundColor:'white',
   },
 
   fundoCaixa: {
-height:'35%',
-  paddingTop:10,
+
+paddingTop:20,
   justifyContent:'center',
   marginHorizontal:'10%',
   borderTopLeftRadius:10,
@@ -103,7 +99,8 @@ height:'35%',
   borderTopWidth:0.3,
   borderLeftWidth:0.3,
   borderRightWidth:0.3,
-  borderColor:'white'
+  borderColor:'white',
+
 
 },
 
@@ -143,6 +140,27 @@ inserirNome: {
         justifyContent: "center",
      
      
+},
+
+importancia: {
+backgroundColor:'gray',
+paddingHorizontal:15,
+paddingVertical:7,
+borderRadius:40,
+color:'white',
+fontWeight:'bold'
+},
+
+importanciaTitulo: {
+fontSize:20,
+color:'white',
+fontWeight:'bold'
+},
+
+importanciaContainer: {
+flexDirection:'row',
+gap:10,
+
 }
 
 

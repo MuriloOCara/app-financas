@@ -9,7 +9,6 @@ perfilContainer: {
     backgroundColor:'lightgray',
     borderRadius:15,
     marginBottom:10,
-
 },
 
 nome: {

@@ -1,6 +1,7 @@
 
 import { Text, StyleSheet, View, Button, Pressable, ActivityIndicator } from 'react-native';
 import React from 'react';
+import styleFunction from './style';
 
 function CardHistorico(props) {
 
@@ -30,7 +31,7 @@ const style = styleFunction(config.cor, config.corEscura)
 
 
 
-<Text style={style.valor}>{props.valor}</Text>
+<Text style={style.valor}>R$ {props.valor}</Text>
 
 
     
@@ -40,57 +41,7 @@ const style = styleFunction(config.cor, config.corEscura)
 
 
  
-  const styleFunction = (cor, corEscura) => StyleSheet.create({
-
-    categoria: {
-      color:'white',
-      fontWeight:'700',
-      fontSize:20,
-      marginLeft:17,
-      marginBottom:5
-     },
-     
-     texto: {
-     flexWrap:'wrap',
-     width:150,
-     fontSize:12,
-     color:'white',
-     marginLeft:17,
-     },
-     
-     lixo: {
-       marginLeft:'auto', 
-       position:'absolute',
-       left:300,
-     bottom:'50%'
-     
-     },
-     
-     movimentacaoContainer: {
-       backgroundColor:cor,
-       paddingVertical:10,
-       marginBottom:12,
-       marginHorizontal:20,
-       borderRadius:20
-     
-     },
-     
-     valor: {
-       color:corEscura,
-       fontWeight:'700',
-       position:'absolute',
-       bottom:'50%',
-       left:'50%',
-       fontSize:20,
-       flexWrap:'wrap'
-     },
-     
-     loading:{
-       color:corEscura
-     }
-     
-     
-     })
+  
 
 
 

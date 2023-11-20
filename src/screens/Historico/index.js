@@ -85,12 +85,9 @@ return soma
 
 
 
-<View style={{flex:1,  backgroundColor:'#21222C'}}>
+<View style={{flex:1,  backgroundColor:'#21222C', paddingTop:10}}>
  
-  <View style={styles.header}>
 
-    <Text style={{color:'white', fontWeight:'700', fontSize:20}}>Histórico de movimentações</Text>
-  </View>
 
 
 {

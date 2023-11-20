@@ -1,5 +1,5 @@
 
-import { Text, StyleSheet, View, Button, Pressable } from 'react-native';
+import { Text, StyleSheet, View, Button, Pressable, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native'
 import { useState, useEffect, useCallback } from 'react';
 import styles from './style'
@@ -11,6 +11,7 @@ import { create } from '../../services/User';
 import { Context } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
+
 export default function CriarConta() {
 
     const [modalVisivel, setModalVisivel] = useState(false)
@@ -21,6 +22,12 @@ const [imagem, setImagem] = useState(null)
 
 async function selecionarImagem() {
 
+  const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+  if(!status) {
+    return;
+  }
+
   const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -30,14 +37,12 @@ async function selecionarImagem() {
     });
 
   
-  
-  
     if (!result.canceled) {
       setImagem(result.assets[0].uri);
     }
   
   
-  console.log(imagem)
+  
   }
   
 
@@ -46,13 +51,18 @@ async function selecionarImagem() {
 
 
 async function salvar(){
+  console.log(imagem)
     const objeto = {
         imagem: imagem,
-        nome: nome
+        nome: nome.charAt(0).toUpperCase() + nome.slice(1)
     }
 
+    if(objeto.imagem && objeto.nome){
 
 await create(objeto)
+    } else {
+      Alert.alert('Erro na criação do perfil', 'Preencha os campos corretamente')
+    }
 }
 
 function reset() {
@@ -120,8 +130,10 @@ function reset() {
                       <TextInput  placeholder='Insira seu nome' style={{textAlign:'center'}} onChangeText={(item) => setNome(item)}/>
            
              
-              </View>
+              </View >
+              <View>
               <Pressable onPress={() => selecionarImagem()} ><Entypo name='image' size={45} color={'white'}/></Pressable>
+              </View>
             </View>
          
 <View style={{flexDirection:'row', justifyContent:'space-around'}}>

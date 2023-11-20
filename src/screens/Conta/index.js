@@ -8,22 +8,22 @@ import { TextInput } from 'react-native-paper'
 import { FlatList } from 'react-native';
 import Perfil from '../../components/Perfil';
 import CriarConta from '../CriarConta';
-import { busca } from '../../services/User';
+import { buscaContas } from '../../services/User';
 import { criaTabela } from '../../services/User';
-
+import { excluirTransacoes } from '../../services/User';
 import { UserContexto } from '../../contexts/user';
 import { useContext } from 'react';
 import { excluirUser } from '../../services/User';
+import ValorContainer from '../../components/ValorContainer';
 
 export default function Conta() {
 const [data, setData] = useState([])
 const navigation = useNavigation()
 
 const {login} = useContext(UserContexto)
-
-function selecionarConta (obj){
+async function selecionarConta (obj){
  
-login(obj.item)
+await login(obj.item)
 console.log(obj.item)
 navigation.navigate('Home')
 }
@@ -32,6 +32,7 @@ navigation.navigate('Home')
 
 async function excluir(id){
 await excluirUser(id)
+await excluirTransacoes(id)
 }
 
 
@@ -40,7 +41,7 @@ useEffect(() => {
 criaTabela()
 
   async function buscarContas(){
-    const result = await busca()
+    const result = await buscaContas()
 setData(result)
 
 
@@ -63,12 +64,15 @@ buscarContas()
 <FlatList
 data={data}
 keyExtractor={(item) => item.id}
-renderItem={( item ) => <Perfil {...item} onDelete={() => excluir(item.item.id)}  onSelect={() => {selecionarConta(item)}}/>}
+renderItem={( item ) => <Perfil {...item} onDelete={() => {
+  excluir(item.item.id)
+
+}}  onSelect={() => {selecionarConta(item)}
+
+}/>}
 maxToRenderPerBatch={15}
+ListFooterComponent={<CriarConta />}
 />
-
-<CriarConta />
-
 
 
     </View>
